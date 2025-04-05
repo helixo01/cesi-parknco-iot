@@ -2,12 +2,12 @@
   "name": "cesi-parknco-iot",
   "version": "1.0.0",
   "description": "Application IoT avec InfluxDB",
-  "main": "index.js",
+  "main": "src/parkingSimulator.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/parkingSimulator.ts",
     "build": "tsc",
     "simulate": "ts-node src/parkingSimulator.ts",
     "postinstall": "tsc"

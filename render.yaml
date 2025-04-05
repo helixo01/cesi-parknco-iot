@@ -3,5 +3,8 @@ services:
     name: parking-simulator
     env: node
     buildCommand: npm install
-    startCommand: npm run simulate
-    plan: free 
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: 18 
