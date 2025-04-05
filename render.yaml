@@ -1,0 +1,7 @@
+services:
+  - type: worker
+    name: parking-simulator
+    env: node
+    buildCommand: npm install
+    startCommand: npm run simulate
+    plan: free 

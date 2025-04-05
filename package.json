@@ -1,0 +1,29 @@
+{
+  "name": "cesi-parknco-iot",
+  "version": "1.0.0",
+  "description": "Application IoT avec InfluxDB",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "simulate": "ts-node src/parkingSimulator.ts",
+    "postinstall": "tsc"
+  },
+  "dependencies": {
+    "@influxdata/influxdb-client": "^1.33.2",
+    "dotenv": "^16.3.1",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "@types/node": "^18.0.0",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.1",
+    "@types/node": "^18.0.0",
+    "tsconfig-paths": "^4.2.0"
+  }
+} 
