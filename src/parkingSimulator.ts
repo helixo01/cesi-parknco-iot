@@ -71,12 +71,17 @@ class ParkingSimulator {
     }
 
     private getCurrentHour(): number {
-        return new Date().getHours() + (new Date().getMinutes() / 60);
+        // Création d'une date avec le fuseau horaire de Paris
+        const now = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+        const parisDate = new Date(now);
+        return parisDate.getHours() + (parisDate.getMinutes() / 60);
     }
 
     private isWeekend(): boolean {
-        const day = new Date().getDay();
-        return day === 0 || day === 6;
+        // Vérification du weekend selon l'heure de Paris
+        const now = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+        const parisDate = new Date(now);
+        return parisDate.getDay() === 0 || parisDate.getDay() === 6;
     }
 
     private getTargetOccupationRate(hour: number): number {
@@ -119,10 +124,14 @@ class ParkingSimulator {
 
     private async updateParkingState() {
         const hour = this.getCurrentHour();
-        const now = new Date();
-        const isNightOrWeekend = this.isWeekend() || (hour < 7.5 || hour >= 18);
+        // Utilisation de l'heure de Paris pour l'affichage
+        const now = new Date().toLocaleString("fr-FR", {
+            timeZone: "Europe/Paris",
+            dateStyle: "full",
+            timeStyle: "long"
+        });
 
-        console.log('\n=== Mise à jour du ' + now.toLocaleDateString() + ' à ' + now.toLocaleTimeString() + ' ===');
+        console.log('\n=== Mise à jour du ' + now + ' ===');
         console.log(`Période: ${this.isWeekend() ? 'Weekend' : 'Semaine'}`);
 
         for (const parking of parkings) {
@@ -138,7 +147,7 @@ class ParkingSimulator {
                 const newOccupationRate = this.calculateNewOccupationRate(
                     previousState.occupationRate,
                     targetOccupationRate,
-                    isNightOrWeekend
+                    this.isWeekend() || (hour < 7.5 || hour >= 18)
                 );
 
                 // Calcul du nombre de places occupées
