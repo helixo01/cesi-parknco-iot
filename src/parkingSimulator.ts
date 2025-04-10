@@ -71,17 +71,24 @@ class ParkingSimulator {
     }
 
     private getCurrentHour(): number {
-        // Création d'une date avec le fuseau horaire de Paris
-        const now = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
-        const parisDate = new Date(now);
-        return parisDate.getHours() + (parisDate.getMinutes() / 60);
+        // Utilisation de l'API Intl pour une meilleure gestion des fuseaux horaires
+        const formatter = new Intl.DateTimeFormat('fr-FR', {
+            timeZone: 'Europe/Paris',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        const [hours, minutes] = formatter.format(new Date()).split(':').map(Number);
+        return hours + (minutes / 60);
     }
 
     private isWeekend(): boolean {
-        // Vérification du weekend selon l'heure de Paris
-        const now = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
-        const parisDate = new Date(now);
-        return parisDate.getDay() === 0 || parisDate.getDay() === 6;
+        // Utilisation de l'API Intl pour une meilleure gestion des fuseaux horaires
+        const formatter = new Intl.DateTimeFormat('fr-FR', {
+            timeZone: 'Europe/Paris',
+            weekday: 'long'
+        });
+        const day = formatter.format(new Date()).toLowerCase();
+        return day === 'samedi' || day === 'dimanche';
     }
 
     private getTargetOccupationRate(hour: number): number {
@@ -124,12 +131,13 @@ class ParkingSimulator {
 
     private async updateParkingState() {
         const hour = this.getCurrentHour();
-        // Utilisation de l'heure de Paris pour l'affichage
-        const now = new Date().toLocaleString("fr-FR", {
-            timeZone: "Europe/Paris",
-            dateStyle: "full",
-            timeStyle: "long"
+        // Utilisation de l'API Intl pour un affichage correct de la date
+        const formatter = new Intl.DateTimeFormat('fr-FR', {
+            timeZone: 'Europe/Paris',
+            dateStyle: 'full',
+            timeStyle: 'long'
         });
+        const now = formatter.format(new Date());
 
         console.log('\n=== Mise à jour du ' + now + ' ===');
         console.log(`Période: ${this.isWeekend() ? 'Weekend' : 'Semaine'}`);
